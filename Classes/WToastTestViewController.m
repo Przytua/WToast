@@ -1,18 +1,18 @@
-//
-//  WTestViewController.m
-//  WToast
-//
-//  Created by Nik S Dyonin on 14.01.14.
-//  Copyright (c) 2014 Nik S Dyonin. All rights reserved.
-//
+/**
+ * @class WToastTestViewController
+ * @author Nik S Dyonin <wolf.step@gmail.com>
+ */
 
-#import "WTestViewController.h"
+#import "WToastTestViewController.h"
 #import "WToast.h"
 
-@implementation WTestViewController
+@implementation WToastTestViewController
+
+@synthesize textField = _textField;
 
 - (void)viewDidLoad {
-	_textField.delegate = self;
+	[super viewDidLoad];
+	self.textField.delegate = self;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -21,39 +21,30 @@
 }
 
 - (IBAction)showShortMessage {
-	[_textField resignFirstResponder];
-
-	NSString *text = _textField.text;
-
+	[self.textField resignFirstResponder];
+	NSString *text = self.textField.text;
 	if (!text || ![text length]) {
 		text = @"No text!";
 	}
-
 	[WToast showWithText:text];
 }
 
 - (IBAction)showLongMessage {
-	[_textField resignFirstResponder];
-
-	NSString *text = _textField.text;
-
+	[self.textField resignFirstResponder];
+	NSString *text = self.textField.text;
 	if (!text || ![text length]) {
 		text = @"No text!";
 	}
-
-	[WToast showWithText:text duration:5];
+	[WToast showWithText:text length:5];
 }
 
 - (IBAction)showClickableMessage {
-	[_textField resignFirstResponder];
-  
-	NSString *text = _textField.text;
-  
+	[self.textField resignFirstResponder];
+	NSString *text = self.textField.text;
 	if (!text || ![text length]) {
 		text = @"No text!";
 	}
-  
-	WToast *toast = [WToast showWithText:text duration:3];
+	WToast *toast = [WToast showWithText:text length:3];
   [toast addTarget:self action:@selector(showAlert) forControlEvents:UIControlEventTouchUpInside];
 }
 
@@ -67,7 +58,15 @@
 }
 
 - (IBAction)showLongImage {
-	[WToast showWithImage:[UIImage imageNamed:@"test.png"] duration:5];
+	[WToast showWithImage:[UIImage imageNamed:@"test.png"] length:5];
+}
+
+- (void)dealloc {
+	self.textField = nil;
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
+	return YES;
 }
 
 @end

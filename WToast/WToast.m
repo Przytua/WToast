@@ -20,7 +20,7 @@
 
 @interface WToast()
 
-@property (nonatomic) NSInteger duration;
+@property (nonatomic) CGFloat duration;
 
 @end
 
@@ -29,7 +29,7 @@
 
 - (id)initWithFrame:(CGRect)frame {
 	if ((self = [super initWithFrame:frame]) != nil) {
-		_duration = kWTShort;
+		_duration = 1;
 		self.userInteractionEnabled = NO;
 	}
 	return self;
@@ -221,20 +221,26 @@
 	self.frame = f;
 }
 
+- (void)addTarget:(id)target action:(SEL)action forControlEvents:(UIControlEvents)controlEvents
+{
+  self.userInteractionEnabled = YES;
+  [super addTarget:target action:action forControlEvents:controlEvents];
+}
+
 /**
  * Show toast with text in application window
  * @param text Text to print in toast window
  */
-+ (void)showWithText:(NSString *)text {
-	[WToast showWithText:text duration:kWTShort];
++ (WToast *)showWithText:(NSString *)text {
+	return [WToast showWithText:text duration:1];
 }
 
 /**
  * Show toast with image in application window
  * @param image Image to show in toast window
  */
-+ (void)showWithImage:(UIImage *)image {
-	[WToast showWithImage:image duration:kWTShort];
++ (WToast *)showWithImage:(UIImage *)image {
+	return [WToast showWithImage:image duration:1];
 }
 
 /**
@@ -242,7 +248,7 @@
  * @param text Text to print in toast window
  * @param length Toast visibility duration
  */
-+ (void)showWithText:(NSString *)text duration:(WToastDuration)duration {
++ (WToast *)showWithText:(NSString *)text duration:(CGFloat)duration {
 	WToast *toast = [WToast __createWithText:text];
 	toast.duration = duration;
 	
@@ -251,6 +257,7 @@
 	
 	[toast __flipViewAccordingToStatusBarOrientation];
 	[toast __show];
+  return toast;
 }
 
 /**
@@ -258,7 +265,7 @@
  * @param image Image to show in toast window
  * @param length Toast visibility duration
  */
-+ (void)showWithImage:(UIImage *)image duration:(WToastDuration)duration {
++ (WToast *)showWithImage:(UIImage *)image duration:(CGFloat)duration {
 	WToast *toast = [WToast __createWithImage:image];
 	toast.duration = duration;
 	
@@ -267,6 +274,7 @@
 	
 	[toast __flipViewAccordingToStatusBarOrientation];
 	[toast __show];
+  return toast;
 }
 
 @end

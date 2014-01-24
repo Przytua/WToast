@@ -11,17 +11,12 @@
 #define RGB(a, b, c) [UIColor colorWithRed:(a / 255.0f) green:(b / 255.0f) blue:(c / 255.0f) alpha:1.0f]
 #define RGBA(a, b, c, d) [UIColor colorWithRed:(a / 255.0f) green:(b / 255.0f) blue:(c / 255.0f) alpha:d]
 
-typedef NS_ENUM(NSInteger, WToastDuration) {
-	kWTShort = 1,
-	kWTLong = 5
-};
+@interface WToast : UIControl
 
-@interface WToast : UIView
++ (WToast *)showWithText:(NSString *)text;
++ (WToast *)showWithImage:(UIImage *)image;
 
-+ (void)showWithText:(NSString *)text;
-+ (void)showWithImage:(UIImage *)image;
-
-+ (void)showWithText:(NSString *)text duration:(WToastDuration)duration;
-+ (void)showWithImage:(UIImage *)image duration:(WToastDuration)duration;
++ (WToast *)showWithText:(NSString *)text duration:(CGFloat)duration;
++ (WToast *)showWithImage:(UIImage *)image duration:(CGFloat)duration;
 
 @end
