@@ -96,10 +96,20 @@
 	textLabel.numberOfLines = 0;
 	textLabel.lineBreakMode = NSLineBreakByWordWrapping;
 
-	CGRect tmpRect = [text boundingRectWithSize:CGSizeMake(width - 20.0f, FLT_MAX)
-										options:NSStringDrawingUsesLineFragmentOrigin
-									 attributes:@{NSFontAttributeName: textLabel.font}
-										context:nil];
+	CGRect tmpRect;
+  
+  CGSize constraintSize = CGSizeMake(width - 20.0f, FLT_MAX);
+  if ([[[UIDevice currentDevice] systemVersion] compare:@"7.0" options:NSNumericSearch] != NSOrderedAscending) {
+    tmpRect = [text boundingRectWithSize:constraintSize
+                                 options:NSStringDrawingUsesLineFragmentOrigin
+                              attributes:@{NSFontAttributeName: textLabel.font}
+                                 context:nil];
+  } else {
+    tmpRect = CGRectZero;
+    tmpRect.size = [text sizeWithFont:textLabel.font
+                    constrainedToSize:constraintSize
+                        lineBreakMode:textLabel.lineBreakMode];
+  }
 
 	tmpRect.origin = CGPointZero;
 	tmpRect.size.width = width;
